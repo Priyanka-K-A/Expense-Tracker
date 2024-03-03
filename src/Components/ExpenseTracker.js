@@ -6,8 +6,16 @@ const ExpenseTracker = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(1);
   const [totalBudget, setTotalBudget] = useState(0);
-  const [items, setItems] = useState([]);
-  const [form] = Form.useForm(); 
+  const [expense, setExpense] = useState(0);
+  const [budgetItems, setBudgetItems] = useState([]);
+  const [expenseItems, setExpenseItems] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [form] = Form.useForm();
+
+  const formatDate = (date) => {
+    const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(date).toLocaleString('en-US', options);
+  };
 
   const columns = [
     { title: 'Name', dataIndex: 'name', key: 'name' },
@@ -18,11 +26,12 @@ const ExpenseTracker = () => {
       key: 'type',
       render: (type) => (type === 1 ? 'Expense' : 'Budget'),
     },
-    { title: 'Date', dataIndex: 'date', key: 'date', render: (date) => date.toLocaleString() },
+    { title: 'Date', dataIndex: 'date', key: 'date', render: (date) => formatDate(date) },
   ];
 
   const showModal = () => {
     setOpen(true);
+    setSelectedDate(null); // Reset the selected date when modal is opened
   };
 
   const handleOk = () => {
@@ -33,8 +42,18 @@ const ExpenseTracker = () => {
         setTimeout(() => {
           setLoading(false);
           setOpen(false);
-          setItems([...items, { ...values, type: value, date: new Date() }]);
+
+          const item = { ...values, type: value, date: selectedDate || new Date()};
+          if (value === 2) {
+            setBudgetItems([...budgetItems, item]);
+            setTotalBudget((prev) => prev + parseFloat(values.value));
+          } else {
+            setExpenseItems([...expenseItems, item]);
+            setExpense((prevExpense) => prevExpense + parseFloat(values.value));
+          }
+
           form.resetFields();
+          setSelectedDate(null);
         }, 3000);
       })
       .catch((errorInfo) => {
@@ -50,14 +69,30 @@ const ExpenseTracker = () => {
     setValue(e.target.value);
   };
 
+  const onOk = (value) => {
+    if (value) {
+      setSelectedDate(value.toDate());
+    } 
+    else {
+      setSelectedDate(null);
+    }
+  };
+
+  const remainingAmount = totalBudget - expense;
   return (
     <>
       <h1>Expense Tracker</h1>
 
       <div>Total Budget: {totalBudget}</div>
+      <div>Total Expense: {expense}</div>
+      <div>Remaining Amount: {remainingAmount}</div>
       <Button onClick={showModal}>Add</Button>
 
-      <Table dataSource={items} columns={columns} />
+      <h2>Budget Items</h2>
+      <Table dataSource={budgetItems} columns={columns} />
+
+      <h2>Expense Items</h2>
+      <Table dataSource={expenseItems} columns={columns} />
 
       <Modal
         title="Add Item"
@@ -83,7 +118,7 @@ const ExpenseTracker = () => {
             <Radio value={2}>Budget</Radio>
           </Radio.Group>
           <Space>
-            <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
+            <DatePicker onOk={onOk} showTime format="D MMM YYYY HH:mm" />
           </Space>
         </Form>
       </Modal>
