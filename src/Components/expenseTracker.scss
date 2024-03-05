@@ -1,0 +1,119 @@
+.expense-tracker {
+  background-color: rgb(253, 253, 242);
+  height: 100vh;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+
+  h1 {
+    font-size: 30px;
+    color: black;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .totals {
+    margin-bottom: 10px;
+    color: black;
+    display: flex;
+    align-items: center;
+
+    .totalBudget {
+      background-color: aquamarine;
+    }
+
+    .totalExpense {
+      background-color: aquamarine;
+    }
+
+    .remainingAmount {
+      background-color: aquamarine;
+    }
+
+    div {
+      margin-bottom: 5px;
+      padding: 20px;
+      border-radius: 20px;
+      margin: 20px;
+    }
+
+    .add-button {
+      width: 80px;
+      height: 40px;
+    }
+  }
+
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+
+    .expense-budget-card {
+      border: 2px solid;
+      padding: 0; 
+  
+      .singleCard {
+        display: flex;
+        flex-direction: row;
+        margin: 0; 
+  
+        p {
+          padding-right: 10px;
+          font-size: 20px;
+          margin: 0; 
+        }
+      }
+  
+      &.expenseRow {
+        border-color: red;
+      }
+  
+      &.budgetRow {
+        border-color: green;
+      }
+    }
+  }
+  
+
+  .modal-form {
+    padding: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    .ant-space {
+      margin-bottom: 16px;
+
+      .ant-picker {
+        width: 100%;
+      }
+    }
+
+    .ant-radio-group {
+      margin-bottom: 16px;
+    }
+
+    .ant-btn {
+      margin-right: 8px;
+    }
+  }
+}
