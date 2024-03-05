@@ -59,30 +59,29 @@
 
     .expense-budget-card {
       border: 2px solid;
-      padding: 0; 
-  
+      padding: 0;
+
       .singleCard {
         display: flex;
         flex-direction: row;
-        margin: 0; 
-  
+        margin: 0;
+
         p {
           padding-right: 10px;
           font-size: 20px;
-          margin: 0; 
+          margin: 0;
         }
       }
-  
+
       &.expenseRow {
         border-color: red;
       }
-  
+
       &.budgetRow {
         border-color: green;
       }
     }
   }
-  
 
   .modal-form {
     padding: 20px;

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Radio, Select, Card, DatePicker, Space } from 'antd';
+import { GiHouse, GiForkKnifeSpoon, GiCash } from "react-icons/gi";
+import { FaMotorcycle, FaHospitalUser, FaCartShopping } from "react-icons/fa6";
+import { BsFillStarFill } from "react-icons/bs";
 import './expenseTracker.scss';
 
-const { Option } = Select; 
+const { Option } = Select;
 
 const ExpenseTracker = () => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +16,7 @@ const ExpenseTracker = () => {
   const [items, setItems] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [form] = Form.useForm();
-  const [greeting,setGreeting] = useState('');
+  const [greeting, setGreeting] = useState('');
 
   const formatDate = (date) => {
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
@@ -22,10 +25,31 @@ const ExpenseTracker = () => {
 
   const getRowName = (rowname) => {
     return rowname.type === 1 ? 'expenseRow' : 'budgetRow';
-  }
+  };
 
-  const getCategory = (values) => {
-    switch (values) {
+  const getCategoryIcon = (category) => {
+    switch (category) {
+      case 'salary':
+        return <GiCash />
+      case 'housing':
+        return <GiHouse />;
+      case 'transportation':
+        return <FaMotorcycle />;
+      case 'food':
+        return <GiForkKnifeSpoon />;
+      case 'healthcare':
+        return <FaHospitalUser />;
+      case 'personal':
+        return <FaCartShopping />;
+      default:
+        return <BsFillStarFill />;
+    }
+  };
+
+  const getCategoryName = (category) => {
+    switch (category) {
+      case 'salary':
+        return 'Salary';
       case 'housing':
         return 'Housing';
       case 'transportation':
@@ -43,7 +67,7 @@ const ExpenseTracker = () => {
 
   const showModal = () => {
     setOpen(true);
-    setSelectedDate(null); 
+    setSelectedDate(null);
   };
 
   const handleOk = () => {
@@ -54,25 +78,32 @@ const ExpenseTracker = () => {
         setTimeout(() => {
           setLoading(false);
           setOpen(false);
-  
-          const item = { ...values, type: value, date: selectedDate || new Date(), category: getCategory(values) };
+
+          const item = {
+            ...values,
+            type: value,
+            date: selectedDate || new Date(),
+            category: {
+              name: getCategoryName(values.category),
+              icon: getCategoryIcon(values.category),
+            },
+          };
           setItems([...items, item]);
-  
+
           if (value === 2) {
             setTotalBudget((prev) => prev + parseFloat(values.value));
           } else {
             setExpense((prevExpense) => prevExpense + parseFloat(values.value));
           }
-  
+
           form.resetFields();
           setSelectedDate(null);
-        }, 3000);
-        console.log("RECEIVED : ",values);
+        }, 1000);
       })
       .catch((errorInfo) => {
         console.log('Validation Failed:', errorInfo);
       });
-  };  
+  };
 
   const handleCancel = () => {
     setOpen(false);
@@ -94,17 +125,16 @@ const ExpenseTracker = () => {
     const getCurrentGreeting = () => {
       const currentHour = new Date().getHours();
 
-      if(currentHour >= 0 && currentHour < 12){
+      if (currentHour >= 0 && currentHour < 12) {
         setGreeting('Good Morning');
-      } else if(currentHour >= 12 && currentHour < 18){
+      } else if (currentHour >= 12 && currentHour < 18) {
         setGreeting('Good Afternoon');
-      } else{
+      } else {
         setGreeting('Good Evening');
       }
     };
     getCurrentGreeting();
-
-  },[]);
+  }, []);
 
   const remainingAmount = totalBudget - expense;
 
@@ -119,19 +149,23 @@ const ExpenseTracker = () => {
         <div className='remainingAmount'>Remaining Amount: {remainingAmount}</div>
         <Button className="add-button" onClick={showModal}>Add</Button>
       </div>
-      
+
       <div className="card-container">
         {items.map((item, index) => (
-          <Card key={index} className={`expense-budget-card ${getRowName(item)} `} >
+          <Card key={index} className={`expense-budget-card ${getRowName(item)} `}>
             <div className='singleCard'>
               <p>{item.name}</p>
-              <p>₹{item.value}</p>
-              <p>{(item.category)}</p>
+              <p>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
+              <div className="category-info">
+                {item.category.icon}
+                <span>{item.category.name}</span>
+              </div>
               <p>{formatDate(item.date)}</p>
             </div>
           </Card>
         ))}
       </div>
+
 
       <Modal
         title="Add Item"
@@ -154,6 +188,7 @@ const ExpenseTracker = () => {
           </Form.Item>
           <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please select a category' }]}>
             <Select placeholder="Select a category">
+              <Option value="salary">Salary</Option>
               <Option value="housing">Housing</Option>
               <Option value="transportation">Transportation</Option>
               <Option value="food">Food</Option>
