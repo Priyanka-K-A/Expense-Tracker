@@ -26,6 +26,8 @@
 
 - react
 - AntD
+- react-icons(for icons)
+- SASS(for Styling)
 
 ### Platform
 
