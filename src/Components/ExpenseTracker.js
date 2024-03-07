@@ -19,9 +19,9 @@ const ExpenseTracker = () => {
   const [greeting, setGreeting] = useState('');
 
   const formatDate = (date) => {
-    const options = { day: 'numeric', month: 'short', year: 'numeric' };
-    return new Date(date).toLocaleString('en-US', options);
-  };
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return new Date(date).toLocaleString('en-US', options).replace(',','');
+  };  
 
   const getRowName = (rowname) => {
     return rowname.type === 1 ? 'expenseRow' : 'budgetRow';
@@ -61,7 +61,7 @@ const ExpenseTracker = () => {
       case 'personal':
         return 'Personal and Leisure';
       default:
-        return 'Other';
+        return 'Others';
     }
   };
 
@@ -154,13 +154,18 @@ const ExpenseTracker = () => {
         {items.map((item, index) => (
           <Card key={index} className={`expense-budget-card ${getRowName(item)} `}>
             <div className='singleCard'>
-              <p>{item.name}</p>
-              <p>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
-              <div className="category-info">
-                {item.category.icon}
-                <span>{item.category.name}</span>
+              <div className='firstFlex'>
+                <div className={`icon ${item.category.name.toLowerCase()}`}>{item.category.icon}</div>
+                <div className='categoryName'>
+                  <div>{item.category.name}</div>
+                  <p>{item.name}</p>
+                </div>
               </div>
-              <p>{formatDate(item.date)}</p>
+              <div className="categoryInfo">
+                <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
+                <p>{formatDate(item.date)}</p>
+              </div>
+              
             </div>
           </Card>
         ))}
@@ -194,6 +199,7 @@ const ExpenseTracker = () => {
               <Option value="food">Food</Option>
               <Option value="healthcare">Healthcare</Option>
               <Option value="personal">Personal and Leisure</Option>
+              <Option value="others">Others</Option>
             </Select>
           </Form.Item>
           <Radio.Group onChange={onChange} value={value}>
@@ -201,7 +207,7 @@ const ExpenseTracker = () => {
             <Radio value={2}>Budget</Radio>
           </Radio.Group>
           <Space>
-            <DatePicker onOk={onOk} format="D MMM YYYY" />
+            <DatePicker onOk={onOk} format="DD MMMM YYYY" />
           </Space>
         </Form>
       </Modal>

@@ -1,6 +1,5 @@
 .expense-tracker {
   background-color: rgb(253, 253, 242);
-  height: 100vh;
   margin: 20px;
   padding: 20px;
   border-radius: 20px;
@@ -55,30 +54,107 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 50%;
+    width: 40%;
+
+    .ant-card-body {
+      padding: 14px;
+    }
 
     .expense-budget-card {
       border: 2px solid;
       padding: 0;
+      border-radius: 25px;
 
       .singleCard {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         margin: 0;
 
+        .firstFlex {
+          display: flex;
+          flex-direction: row;
+          width: 300px;
+        }
+
+        .icon {
+          font-size: 34px;
+          border-radius: 10px;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .salary {
+          color: rgba(2, 168, 106, 255);
+          background-color: rgba(207, 251, 234, 255);
+        }
+
+        .housing {
+          color: brown;
+          background-color: #ffebcd;
+        }
+
+        .transportation {
+          color: rgba(127, 61, 255, 255);
+          background-color: rgba(239, 228, 255, 255);
+        }
+
+        .food {
+          color: rgba(253, 56, 70, 255);
+          background-color: rgba(255, 213, 215, 255);
+        }
+
+        .healthcare {
+          color: rgb(27, 181, 233);
+          background-color: rgb(232, 248, 252);
+        }
+
+        .personal {
+          color: rgba(253, 173, 18, 255);
+          background-color: rgba(252, 239, 212, 255);
+        }
+
+        .others {
+          color: coral;
+          background-color: rgb(253, 239, 234);
+        }
+
+        .categoryName {
+          margin-left: 10px;
+        }
+        .categoryName,
+        .categoryInfo {
+          font-size: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .categoryInfo {
+          display: flex;
+          align-items: flex-end;
+        }
         p {
           padding-right: 10px;
           font-size: 20px;
           margin: 0;
+          color: rgb(107, 106, 106);
         }
       }
 
       &.expenseRow {
         border-color: red;
+        .amount {
+          color: red;
+        }
       }
 
       &.budgetRow {
         border-color: green;
+        .amount {
+          color: green;
+        }
       }
     }
   }
