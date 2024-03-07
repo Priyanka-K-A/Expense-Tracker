@@ -25,14 +25,8 @@
     display: flex;
     align-items: center;
 
-    .totalBudget {
-      background-color: aquamarine;
-    }
-
-    .totalExpense {
-      background-color: aquamarine;
-    }
-
+    .totalBudget,
+    .totalExpense,
     .remainingAmount {
       background-color: aquamarine;
     }
@@ -124,6 +118,7 @@
         .categoryName {
           margin-left: 10px;
         }
+
         .categoryName,
         .categoryInfo {
           font-size: 20px;
@@ -131,10 +126,12 @@
           flex-direction: column;
           justify-content: space-between;
         }
+
         .categoryInfo {
           display: flex;
           align-items: flex-end;
         }
+
         p {
           padding-right: 10px;
           font-size: 20px;
