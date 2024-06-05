@@ -1,4 +1,4 @@
-# Expense Tracker
+# Cash Care (A Expense Tracker)
 
 ## Domain: _Web Development_
 :small_blue_diamond: A user-friendly web application designed to streamline personal finance management. <br />
@@ -26,6 +26,8 @@
 
 - react
 - AntD
+- react-icons(for icons)
+- SASS(for Styling)
 
 ### Platform
 
