@@ -1,158 +1,193 @@
 .expense-tracker {
-  background-color: rgb(253, 253, 242);
-  margin: 20px;
-  padding: 20px;
-  border-radius: 20px;
+  .header {
+    display: flex;
+    align-items: center;
+    background-color: black;
+  }
+
+  .title {
+    position: relative;
+    top: 0;
+  }
 
   h1 {
-    font-size: 30px;
-    color: black;
+    font-size: 25px;
+    color: white;
     font-family: "Roboto", sans-serif;
     font-weight: 500;
-    margin-bottom: 10px;
     text-align: center;
   }
 
-  h2 {
-    font-size: 20px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-
-  .totals {
-    margin-bottom: 10px;
-    color: black;
+  .totalsBox {
     display: flex;
     align-items: center;
-
-    .totalBudget,
-    .totalExpense,
-    .remainingAmount {
-      background-color: aquamarine;
-    }
-
-    div {
-      margin-bottom: 5px;
-      padding: 20px;
+    font-size: 18px;
+    .totals {
+      margin-bottom: 10px;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       border-radius: 20px;
-      margin: 20px;
-    }
+      background-color: rgb(218, 245, 236);
+      width: 400px;
+      margin-left: 10px;
+      margin: 10px;
+      text-align: center;
 
+      div {
+        padding: 5px;
+        border-radius: 20px;
+      }
+
+      .budgetExpenses {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background-color: rgb(3, 3, 70);
+        color: white;
+        width: 390px;
+      }
+      .incomeName {
+        color: greenyellow;
+      }
+      .expenseName {
+        color: red;
+      }
+      .displayBox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+    }
     .add-button {
       width: 80px;
       height: 40px;
     }
   }
 
-  .card-container {
+  .displayingExpenses{
+    // border: 2px solid brown;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 40%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
 
-    .ant-card-body {
-      padding: 14px;
-    }
-
-    .expense-budget-card {
-      border: 2px solid;
-      padding: 0;
-      border-radius: 25px;
-
-      .singleCard {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 0;
-
-        .firstFlex {
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 40%;
+      margin-left: 10px;
+  
+      .ant-card-body {
+        padding: 14px;
+      }
+  
+      .expense-budget-card {
+        border: 2px solid;
+        padding: 0;
+        border-radius: 25px;
+  
+        .singleCard {
           display: flex;
           flex-direction: row;
-          width: 300px;
-        }
-
-        .icon {
-          font-size: 34px;
-          border-radius: 10px;
-          padding: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .salary {
-          color: rgba(2, 168, 106, 255);
-          background-color: rgba(207, 251, 234, 255);
-        }
-
-        .housing {
-          color: brown;
-          background-color: #ffebcd;
-        }
-
-        .transportation {
-          color: rgba(127, 61, 255, 255);
-          background-color: rgba(239, 228, 255, 255);
-        }
-
-        .food {
-          color: rgba(253, 56, 70, 255);
-          background-color: rgba(255, 213, 215, 255);
-        }
-
-        .healthcare {
-          color: rgb(27, 181, 233);
-          background-color: rgb(232, 248, 252);
-        }
-
-        .personal {
-          color: rgba(253, 173, 18, 255);
-          background-color: rgba(252, 239, 212, 255);
-        }
-
-        .others {
-          color: coral;
-          background-color: rgb(253, 239, 234);
-        }
-
-        .categoryName {
-          margin-left: 10px;
-        }
-
-        .categoryName,
-        .categoryInfo {
-          font-size: 20px;
-          display: flex;
-          flex-direction: column;
           justify-content: space-between;
-        }
-
-        .categoryInfo {
-          display: flex;
-          align-items: flex-end;
-        }
-
-        p {
-          padding-right: 10px;
-          font-size: 20px;
           margin: 0;
-          color: rgb(107, 106, 106);
+  
+          .firstFlex {
+            display: flex;
+            flex-direction: row;
+            width: 300px;
+          }
+  
+          .icon {
+            font-size: 34px;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+  
+          .salary {
+            color: rgba(2, 168, 106, 255);
+            background-color: rgba(207, 251, 234, 255);
+          }
+  
+          .housing {
+            color: brown;
+            background-color: #ffebcd;
+          }
+  
+          .transportation {
+            color: rgba(127, 61, 255, 255);
+            background-color: rgba(239, 228, 255, 255);
+          }
+  
+          .food {
+            color: rgba(253, 56, 70, 255);
+            background-color: rgba(255, 213, 215, 255);
+          }
+  
+          .healthcare {
+            color: rgb(27, 181, 233);
+            background-color: rgb(232, 248, 252);
+          }
+  
+          .personal {
+            color: rgba(253, 173, 18, 255);
+            background-color: rgba(252, 239, 212, 255);
+          }
+  
+          .others {
+            color: coral;
+            background-color: rgb(253, 239, 234);
+          }
+  
+          .categoryName {
+            margin-left: 10px;
+          }
+  
+          .categoryName,
+          .categoryInfo {
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+  
+          .categoryInfo {
+            display: flex;
+            align-items: flex-end;
+          }
+  
+          p {
+            padding-right: 10px;
+            font-size: 18px;
+            margin: 0;
+            color: rgb(107, 106, 106);
+          }
+        }
+  
+        &.expenseRow {
+          border-color: red;
+          .amount {
+            color: red;
+          }
+        }
+  
+        &.budgetRow {
+          border-color: green;
+          .amount {
+            color: green;
+          }
         }
       }
+    }
 
-      &.expenseRow {
-        border-color: red;
-        .amount {
-          color: red;
-        }
-      }
-
-      &.budgetRow {
-        border-color: green;
-        .amount {
-          color: green;
-        }
-      }
+    .piechart{
+      margin-left: 10px;
     }
   }
 

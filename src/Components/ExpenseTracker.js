@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Form, Input, Radio, Select, Card, DatePicker, Space,message, notification } from 'antd';
+import { Button, Modal, Form, Input, Radio, Select, Card, DatePicker, Space,  notification, Image } from 'antd';
 import { GiHouse, GiForkKnifeSpoon, GiCash } from "react-icons/gi";
 import { FaMotorcycle, FaHospitalUser, FaCartShopping } from "react-icons/fa6";
 import { BsFillStarFill } from "react-icons/bs";
+import { FaArrowCircleDown, FaArrowCircleUp } from "react-icons/fa";
+
 import './expenseTracker.scss';
 
 const { Option } = Select;
@@ -17,9 +19,9 @@ const ExpenseTracker = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [form] = Form.useForm();
   const [greeting, setGreeting] = useState('');
-  const [remainingAmount,setRemainingAmount] = useState(0);
+  const [remainingAmount, setRemainingAmount] = useState(0);
   const [warningClosed, setWarningClosed] = useState(false);
-
+  
   const formatDate = (date) => {
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
     return new Date(date).toLocaleString('en-US', options).replace(',','');
@@ -61,12 +63,12 @@ const ExpenseTracker = () => {
       case 'healthcare':
         return 'HealthCare';
       case 'personal':
-        return 'Personal and Leisure';
+        return 'personal';
       default:
         return 'Others';
     }
   };
-
+  
   const showModal = () => {
     setOpen(true);
     setSelectedDate(null);
@@ -159,41 +161,62 @@ const ExpenseTracker = () => {
         duration: 3,
       });
     }
-  }, [totalBudget,expense,warningClosed]);
+  }, [totalBudget,expense,warningClosed,remainingAmount]);
 
   return (
     <div className="expense-tracker">
-      <h1>Heyy!! {greeting}</h1>
-      <h1>Cash Care</h1>
 
-      <div className="totals">
-        <div className='totalBudget'>Total Budget: {totalBudget}</div>
-        <div className='totalExpense'>Total Expense: {expense}</div>
-        <div className='remainingAmount'>Remaining Amount: {remainingAmount}</div>
+      <div className='header'>
+        <Image width={120} src="logo.png" className='title'  />
+        <h1>Heyy!! {greeting}</h1> 
+      </div>
+
+      <div className='totalsBox'>
+        <div className="totals">
+          <div className='remainingAmount'>Your Available Balance 
+            <div> ₹ {remainingAmount} </div>
+          </div>
+          <div className='budgetExpenses'>
+            <div>
+              <div className='displayBox'>
+                <FaArrowCircleUp />
+                <div className='incomeName'> Income </div>
+              </div>
+              <div> ₹ {totalBudget} </div>
+            </div>
+            <div>
+              <div className='displayBox'>
+                <FaArrowCircleDown />
+                <div className='expenseName'> Expenses </div>
+              </div>
+              <div> ₹ {expense} </div>
+            </div>  
+          </div>
+        </div>       
         <Button className="add-button" onClick={showModal}>Add</Button>
       </div>
-
-      <div className="card-container">
-        {items.map((item, index) => (
-          <Card key={index} className={`expense-budget-card ${getRowName(item)} `}>
-            <div className='singleCard'>
-              <div className='firstFlex'>
-                <div className={`icon ${item.category.name.toLowerCase()}`}>{item.category.icon}</div>
-                <div className='categoryName'>
-                  <div>{item.category.name}</div>
-                  <p>{item.name}</p>
+      <div className='displayingExpenses'>
+        <div className="card-container">
+          {items.map((item, index) => (
+            <Card key={index} className={`expense-budget-card ${getRowName(item)} `}>
+              <div className='singleCard'>
+                <div className='firstFlex'>
+                  <div className={`icon ${item.category.name.toLowerCase()}`}>{item.category.icon}</div>
+                  <div className='categoryName'>
+                    <div>{item.category.name}</div>
+                    <p>{item.name}</p>
+                  </div>
                 </div>
+                <div className="categoryInfo">
+                  <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
+                  <p>{formatDate(item.date)}</p>
+                </div>
+                
               </div>
-              <div className="categoryInfo">
-                <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
-                <p>{formatDate(item.date)}</p>
-              </div>
-              
-            </div>
-          </Card>
-        ))}
+            </Card>
+          ))}
+        </div>
       </div>
-
 
       <Modal
         title="Add Item"
