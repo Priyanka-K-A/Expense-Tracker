@@ -5,6 +5,8 @@ import { FaMotorcycle, FaHospitalUser, FaCartShopping } from "react-icons/fa6";
 import { BsFillStarFill } from "react-icons/bs";
 import { FaArrowCircleDown, FaArrowCircleUp } from "react-icons/fa";
 
+import moment from 'moment';
+
 import './expenseTracker.scss';
 
 const { Option } = Select;
@@ -13,20 +15,38 @@ const ExpenseTracker = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(1);
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [expense, setExpense] = useState(0);
-  const [items, setItems] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [totalBudget, setTotalBudget] = useState(0);
+  // const [expense, setExpense] = useState(0);
+  // const [items, setItems] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(moment());
   const [form] = Form.useForm();
   const [greeting, setGreeting] = useState('');
   const [remainingAmount, setRemainingAmount] = useState(0);
   const [warningClosed, setWarningClosed] = useState(false);
+  // Storing in local storage
+  const [items, setItems] = useState(() => {
+    const storedItems = localStorage.getItem("items");
+    return storedItems ? JSON.parse(storedItems) : [];
+  });
   
-  const formatDate = (date) => {
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    return new Date(date).toLocaleString('en-US', options).replace(',','');
-  };  
+  const [totalBudget, setTotalBudget] = useState(() => {
+    const storedBudget = localStorage.getItem("totalBudget");
+    return storedBudget ? JSON.parse(storedBudget) : 0;
+  });
+  
+  const [expense, setExpense] = useState(() => {
+    const storedExpense = localStorage.getItem("expense");
+    return storedExpense ? JSON.parse(storedExpense) : 0;
+  });
 
+  const formatDate = (dateString) => {
+    console.log("DATE TO FORMAT:", dateString); // Check what's coming in
+    return moment(dateString).format("DD MMMM YYYY");  };
+  
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+ 
   const getRowName = (rowname) => {
     return rowname.type === 1 ? 'expenseRow' : 'budgetRow';
   };
@@ -75,52 +95,25 @@ const ExpenseTracker = () => {
   };
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setOpen(false);
-
-          const item = {
-            ...values,
-            type: value,
-            date: selectedDate || new Date(),
-            category: {
-              name: getCategoryName(values.category),
-              icon: getCategoryIcon(values.category),
-            },
-          };
-          setItems([...items, item]);
-
-          if (value === 2) {
-            setTotalBudget((prev) => prev + parseFloat(values.value));
-            // message.success("Budget added successfully!");
-            notification.success({
-              message:"Budget added successfully!",
-              duration:2,
-            })
-          } else {
-            setExpense((prevExpense) => prevExpense + parseFloat(values.value));
-            notification.success({
-              message: 'Expense added successfully!',
-              duration: 2,
-            });
-          }
-
-          form.resetFields();
-          setSelectedDate(null);
-        }, 1000);
-      })
-      .catch((errorInfo) => {
-        console.log('Validation Failed:', errorInfo);
-        notification.error({
-          message: 'Validation failed. Please check the input values.',
-          duration: 2,
-        });
-      });
-  };
+    form.validateFields().then((values) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setOpen(false);
+  
+        const item = {
+          ...values,
+          type: value,
+          date: selectedDate ? selectedDate.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+          category: values.category,
+        };
+  
+        setItems([...items, item]);
+        form.resetFields();
+        setSelectedDate(moment()); // Reset to today
+      }, 1000);
+    });
+  }; 
 
   const handleCancel = () => {
     setOpen(false);
@@ -132,11 +125,12 @@ const ExpenseTracker = () => {
 
   const onOk = (value) => {
     if (value) {
-      setSelectedDate(value.toDate());
+      setSelectedDate(value.format("YYYY-MM-DD"));
     } else {
       setSelectedDate(null);
     }
   };
+  
 
   useEffect(() => {
     const getCurrentGreeting = () => {
@@ -163,6 +157,15 @@ const ExpenseTracker = () => {
     }
   }, [totalBudget,expense,warningClosed,remainingAmount]);
 
+  // Storing in Local Storage
+  
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+    localStorage.setItem("totalBudget", JSON.stringify(totalBudget));
+    localStorage.setItem("expense", JSON.stringify(expense));
+  }, [items, totalBudget, expense]);
+  
+  // ----------
   return (
     <div className="expense-tracker">
 
@@ -198,12 +201,14 @@ const ExpenseTracker = () => {
       <div className='displayingExpenses'>
         <div className="card-container">
           {items.map((item, index) => (
-            <Card key={index} className={`expense-budget-card ${getRowName(item)} `}>
+            <Card key={index} className={`expense-budget-card ${getRowName(item)}`}>
               <div className='singleCard'>
                 <div className='firstFlex'>
-                  <div className={`icon ${item.category.name.toLowerCase()}`}>{item.category.icon}</div>
+                  <div className={`icon ${item.category.toLowerCase()}`}>
+                    {getCategoryIcon(item.category)} {/* Dynamically call icon */}
+                  </div>
                   <div className='categoryName'>
-                    <div>{item.category.name}</div>
+                    <div>{getCategoryName(item.category)}</div> {/* Dynamically get proper name */}
                     <p>{item.name}</p>
                   </div>
                 </div>
@@ -211,9 +216,8 @@ const ExpenseTracker = () => {
                   <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
                   <p>{formatDate(item.date)}</p>
                 </div>
-                
               </div>
-            </Card>
+            </Card>          
           ))}
         </div>
       </div>
@@ -253,7 +257,14 @@ const ExpenseTracker = () => {
             <Radio value={2}>Budget</Radio>
           </Radio.Group>
           <Space>
-            <DatePicker onOk={onOk} format="DD MMMM YYYY" />
+          <Form.Item label="Date">
+          {/* <DatePicker 
+            onChange={(date, dateString) => setSelectedDate(dateString)} // Save raw format "YYYY-MM-DD"
+            value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
+            format="DD MMMM YYYY"
+          /> */}
+          <DatePicker value={selectedDate} onChange={handleDateChange} />
+          </Form.Item>
           </Space>
         </Form>
       </Modal>
