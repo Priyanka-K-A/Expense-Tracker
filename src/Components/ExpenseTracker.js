@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Radio, Select, Card, DatePicker, Space,  notification, Image } from 'antd';
 import { GiHouse, GiForkKnifeSpoon, GiCash } from "react-icons/gi";
-import { FaMotorcycle, FaHospitalUser, FaCartShopping } from "react-icons/fa6";
+import { FaMotorcycle, FaHospitalUser, FaShoppingCart } from "react-icons/fa";
 import { BsFillStarFill } from "react-icons/bs";
 import { FaArrowCircleDown, FaArrowCircleUp } from "react-icons/fa";
+import newBg from "../Assets/newBg.mp4"; // Adjust the path as needed
 
 import moment from 'moment';
 
 import './expenseTracker.scss';
+
+import ExpenseBudgetChart from './ExpenseBudgetChart';
 
 const { Option } = Select;
 
@@ -23,6 +26,13 @@ const ExpenseTracker = () => {
   const [greeting, setGreeting] = useState('');
   const [remainingAmount, setRemainingAmount] = useState(0);
   const [warningClosed, setWarningClosed] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+      console.log("Category updated:", category);
+  }, [category]);
+
   // Storing in local storage
   const [items, setItems] = useState(() => {
     const storedItems = localStorage.getItem("items");
@@ -50,9 +60,9 @@ const ExpenseTracker = () => {
   const getRowName = (rowname) => {
     return rowname.type === 1 ? 'expenseRow' : 'budgetRow';
   };
-
+  
   const getCategoryIcon = (category) => {
-    switch (category) {
+    switch (category.toLowerCase()) {
       case 'salary':
         return <GiCash />
       case 'housing':
@@ -64,12 +74,12 @@ const ExpenseTracker = () => {
       case 'healthcare':
         return <FaHospitalUser />;
       case 'personal':
-        return <FaCartShopping />;
+        return <FaShoppingCart />;
       default:
         return <BsFillStarFill />;
     }
   };
-
+  
   const getCategoryName = (category) => {
     switch (category) {
       case 'salary':
@@ -92,6 +102,7 @@ const ExpenseTracker = () => {
   const showModal = () => {
     setOpen(true);
     setSelectedDate(null);
+    setIsModalVisible(true);
   };
 
   const handleOk = () => {
@@ -106,9 +117,16 @@ const ExpenseTracker = () => {
           type: value,
           date: selectedDate ? selectedDate.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
           category: values.category,
+          value: parseFloat(values.value),
         };
-  
         setItems([...items, item]);
+
+        if (item.type === 2) { 
+          setTotalBudget(prev => prev + item.value);
+        } else {
+          setExpense(prev => prev + item.value);
+        }
+  
         form.resetFields();
         setSelectedDate(moment()); // Reset to today
       }, 1000);
@@ -117,6 +135,7 @@ const ExpenseTracker = () => {
 
   const handleCancel = () => {
     setOpen(false);
+    setIsModalVisible(false);
   };
 
   const onChange = (e) => {
@@ -163,9 +182,35 @@ const ExpenseTracker = () => {
     localStorage.setItem("items", JSON.stringify(items));
     localStorage.setItem("totalBudget", JSON.stringify(totalBudget));
     localStorage.setItem("expense", JSON.stringify(expense));
-  }, [items, totalBudget, expense]);
+    localStorage.setItem("remainingAmount", JSON.stringify(totalBudget - expense));
+  }, [items, totalBudget, expense]);  
   
-  // ----------
+  // Clearing Stored Data fully
+  const clearData = () => {
+    Modal.confirm({
+      title: "Are you sure?",
+      content: "This will delete all stored data permanently.",
+      onOk: () => {
+        // Reset states
+        setItems([]);
+        setTotalBudget(0);
+        setExpense(0);
+        setRemainingAmount(0);
+  
+        // Clear local storage
+        localStorage.removeItem("items");
+        localStorage.removeItem("totalBudget");
+        localStorage.removeItem("expense");
+        localStorage.removeItem("remainingAmount");
+  
+        notification.success({
+          message: "Data Cleared Successfully!",
+          duration: 2,
+        });
+      },
+    });
+  };
+  
   return (
     <div className="expense-tracker">
 
@@ -173,101 +218,115 @@ const ExpenseTracker = () => {
         <Image width={120} src="logo.png" className='title'  />
         <h1>Heyy!! {greeting}</h1> 
       </div>
-
-      <div className='totalsBox'>
-        <div className="totals">
-          <div className='remainingAmount'>Your Available Balance 
-            <div> ₹ {remainingAmount} </div>
-          </div>
-          <div className='budgetExpenses'>
-            <div>
-              <div className='displayBox'>
-                <FaArrowCircleUp />
-                <div className='incomeName'> Income </div>
-              </div>
-              <div> ₹ {totalBudget} </div>
+      {/*Background Video*/}
+      {/* <section className='footer'>
+        <div className="videoDiv">
+          <video src={newBg} loop autoPlay muted type="video/mp4"></video>
+        </div> */}
+      
+        <div className='totalsBox'>
+          <div className="totals">
+            <div className='remainingAmount'>Your Available Balance 
+              <div> ₹ {remainingAmount} </div>
             </div>
-            <div>
-              <div className='displayBox'>
-                <FaArrowCircleDown />
-                <div className='expenseName'> Expenses </div>
-              </div>
-              <div> ₹ {expense} </div>
-            </div>  
-          </div>
-        </div>       
-        <Button className="add-button" onClick={showModal}>Add</Button>
-      </div>
-      <div className='displayingExpenses'>
-        <div className="card-container">
-          {items.map((item, index) => (
-            <Card key={index} className={`expense-budget-card ${getRowName(item)}`}>
-              <div className='singleCard'>
-                <div className='firstFlex'>
-                  <div className={`icon ${item.category.toLowerCase()}`}>
-                    {getCategoryIcon(item.category)} {/* Dynamically call icon */}
-                  </div>
-                  <div className='categoryName'>
-                    <div>{getCategoryName(item.category)}</div> {/* Dynamically get proper name */}
-                    <p>{item.name}</p>
-                  </div>
+            <div className='budgetExpenses'>
+              <div>
+                <div className='displayBox'>
+                  <FaArrowCircleUp />
+                  <div className='incomeName'> Income </div>
                 </div>
-                <div className="categoryInfo">
-                  <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
-                  <p>{formatDate(item.date)}</p>
-                </div>
+                <div> ₹ {totalBudget} </div>
               </div>
-            </Card>          
-          ))}
+              <div>
+                <div className='displayBox'>
+                  <FaArrowCircleDown />
+                  <div className='expenseName'> Expenses </div>
+                </div>
+                <div> ₹ {expense} </div>
+              </div>  
+            </div>
+          </div>   
+          <div className='buttonClass'>
+            <Button className="add-button" onClick={showModal}>Add</Button>
+            <Button className="delete-button"type="danger" onClick={clearData}>Clear Data</Button>
+          </div>    
         </div>
-      </div>
 
-      <Modal
-        title="Add Item"
-        visible={open}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={[
-          <Button loading={loading} onClick={handleOk}>
-            Add
-          </Button>,
-          <Button onClick={handleCancel}>Cancel</Button>,
-        ]}
-      >
-        <Form form={form} className="modal-form">
-          <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter a name' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Amount" name="value" rules={[{ required: true, message: 'Please enter a value' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please select a category' }]}>
-            <Select placeholder="Select a category">
-              <Option value="salary">Salary</Option>
-              <Option value="housing">Housing</Option>
-              <Option value="transportation">Transportation</Option>
-              <Option value="food">Food</Option>
-              <Option value="healthcare">Healthcare</Option>
-              <Option value="personal">Personal and Leisure</Option>
-              <Option value="others">Others</Option>
-            </Select>
-          </Form.Item>
-          <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Expense</Radio>
-            <Radio value={2}>Budget</Radio>
-          </Radio.Group>
-          <Space>
-          <Form.Item label="Date">
-          {/* <DatePicker 
-            onChange={(date, dateString) => setSelectedDate(dateString)} // Save raw format "YYYY-MM-DD"
-            value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
-            format="DD MMMM YYYY"
-          /> */}
-          <DatePicker value={selectedDate} onChange={handleDateChange} />
-          </Form.Item>
-          </Space>
-        </Form>
-      </Modal>
+        <div className='displayingExpenses'>
+          <div className="card-container">
+            {items.map((item, index) => {
+              const category = item.category ? item.category.toString().toLowerCase() : "default";
+              return (
+                <Card key={index} className={`expense-budget-card ${getRowName(item)}`}>
+                  <div className='singleCard'>
+                    <div className='firstFlex'>
+                      <div className={`icon ${category}`}>
+                        {getCategoryIcon(category)}
+                      </div>
+                      <div className='categoryName'>
+                        <div>{getCategoryName(category)}</div> {/* Dynamically get proper name */}
+                        <p>{item.name}</p>
+                      </div>
+                    </div>
+                    <div className="categoryInfo">
+                      <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
+                      <p>{formatDate(item.date)}</p>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        <Modal
+          title="Add Item"
+          open={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={[
+            <Button loading={loading} onClick={handleOk}>
+              Add
+            </Button>,
+            <Button onClick={handleCancel}>Cancel</Button>,
+          ]}
+        >
+          <Form form={form} className="modal-form">
+            <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter a name' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Amount" name="value" rules={[{ required: true, message: 'Please enter a value' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please select a category' }]}>
+              <Select placeholder="Select a category">
+                <Option value="salary">Salary</Option>
+                <Option value="housing">Housing</Option>
+                <Option value="transportation">Transportation</Option>
+                <Option value="food">Food</Option>
+                <Option value="healthcare">Healthcare</Option>
+                <Option value="personal">Personal and Leisure</Option>
+                <Option value="others">Others</Option>
+              </Select>
+            </Form.Item>
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Expense</Radio>
+              <Radio value={2}>Budget</Radio>
+            </Radio.Group>
+            <Space>
+            <Form.Item label="Date">
+            {/* <DatePicker 
+              onChange={(date, dateString) => setSelectedDate(dateString)} // Save raw format "YYYY-MM-DD"
+              value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
+              format="DD MMMM YYYY"
+            /> */}
+            <DatePicker value={selectedDate} onChange={handleDateChange} />
+            </Form.Item>
+            </Space>
+          </Form>
+        </Modal>
+      {/* </section> */}
+    <ExpenseBudgetChart items={items} />
     </div>
   );
 };
