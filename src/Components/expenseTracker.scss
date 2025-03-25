@@ -1,132 +1,149 @@
+// Variables for better maintainability
+$primary-color: #131313;
+$secondary-color: #ffffff;
+$bg-light: rgb(218, 245, 236);
+$expense-color: red;
+$income-color: rgb(30, 194, 8);
+$button-green: rgb(19, 158, 19);
+$button-red: rgb(236, 9, 9);
+$border-radius: 12px;
+
 .expense-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+
   .header {
     display: flex;
     align-items: center;
-    background-color: black;
-  }
+    justify-content: center;
+    background-color: $primary-color;
+    padding: 15px;
+    width: 100%;
 
-  .title {
-    position: relative;
-    top: 0;
-  }
-
-  h1 {
-    font-size: 25px;
-    color: white;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    text-align: center;
+    h1 {
+      font-size: 24px;
+      color: $secondary-color;
+      font-weight: 600;
+      text-align: center;
+      margin: 0;
+    }
   }
 
   .totalsBox {
     display: flex;
-    align-items: center;
-    font-size: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    width: 100%;
+
     .totals {
-      margin-bottom: 10px;
-      color: black;
       display: flex;
       flex-direction: column;
       align-items: center;
-      border-radius: 20px;
-      background-color: rgb(218, 245, 236);
-      width: 400px;
-      margin-left: 10px;
-      margin: 10px;
+      padding: 15px;
+      border-radius: $border-radius;
+      background-color: $bg-light;
+      width: 300px;
       text-align: center;
-
-      div {
-        padding: 5px;
-        border-radius: 20px;
-      }
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
       .budgetExpenses {
         display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        background-color: rgb(3, 3, 70);
-        color: white;
-        width: 390px;
+        justify-content: space-between;
+        background-color: $primary-color;
+        color: $secondary-color;
+        padding: 10px;
+        border-radius: $border-radius;
+        width: 100%;
       }
+
       .incomeName {
-        color: greenyellow;
+        color: $income-color;
       }
       .expenseName {
-        color: red;
-      }
-      .displayBox {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+        color: $expense-color;
       }
     }
-    .buttonClass{
-      width: 120px;
-      height: 90px;
-      // border: 2px solid black;
+
+    .buttonClass {
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
+      gap: 10px;
       align-items: center;
-      .add-button {
-        width: 100px;
-        height: 40px;
-        background-color: rgb(19, 158, 19);
-        color: white;
-      }
+
+      .add-button,
       .delete-button {
         width: 100px;
         height: 40px;
-        background-color: rgb(236, 9, 9);
         color: white;
+        border: none;
+        border-radius: $border-radius;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .add-button {
+        background-color: $button-green;
+      }
+
+      .delete-button {
+        background-color: $button-red;
       }
     }
   }
 
-  .displayingExpenses{
-    // border: 2px solid brown;
+  .displayingExpenses {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    padding: 15px;
 
     .card-container {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 40%;
-      margin-left: 10px;
-  
-      .ant-card-body {
-        padding: 14px;
-      }
-  
+      flex-wrap: wrap;
+      gap: 15px;
+      width: 100%;
+      justify-content: center;
+
       .expense-budget-card {
+        width: 320px;
         border: 2px solid;
-        padding: 0;
-        border-radius: 25px;
-  
+        border-radius: $border-radius;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
         .singleCard {
           display: flex;
-          flex-direction: row;
           justify-content: space-between;
-          margin: 0;
-  
+          align-items: center;
+
           .firstFlex {
             display: flex;
-            flex-direction: row;
-            width: 300px;
+            align-items: center;
+            gap: 10px;
           }
-  
+
           .icon {
-            font-size: 34px;
-            border-radius: 10px;
-            padding: 10px;
+            font-size: 30px;
+            padding: 8px;
+            border-radius: $border-radius;
             display: flex;
             justify-content: center;
             align-items: center;
           }
-  
           .salary {
             color: rgba(2, 168, 106, 255);
             background-color: rgba(207, 251, 234, 255);
@@ -137,7 +154,7 @@
             background-color: #ffebcd;
           }
   
-          .transportation {
+          .transport {
             color: rgba(127, 61, 255, 255);
             background-color: rgba(239, 228, 255, 255);
           }
@@ -152,7 +169,7 @@
             background-color: rgb(232, 248, 252);
           }
   
-          .personal {
+          .shopping {
             color: rgba(253, 173, 18, 255);
             background-color: rgba(252, 239, 212, 255);
           }
@@ -161,83 +178,88 @@
             color: coral;
             background-color: rgb(253, 239, 234);
           }
-  
-          .categoryName {
-            margin-left: 10px;
-          }
-  
+
           .categoryName,
           .categoryInfo {
-            font-size: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 500;
           }
-  
-          .categoryInfo {
-            display: flex;
-            align-items: flex-end;
-          }
-  
+
           p {
-            padding-right: 10px;
-            font-size: 18px;
+            font-size: 14px;
+            color: gray;
             margin: 0;
-            color: rgb(107, 106, 106);
           }
         }
-  
+
         &.expenseRow {
-          border-color: red;
+          border-color: $expense-color;
           .amount {
-            color: red;
+            color: $expense-color;
           }
         }
-  
+
         &.budgetRow {
-          border-color: green;
+          border-color: $income-color;
           .amount {
-            color: green;
+            color: $income-color;
           }
         }
       }
     }
 
-    .piechart{
-      margin-left: 10px;
+    // Pie Chart Styling
+    .piechart {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 20px;
     }
   }
 
+  // Modal Form Styling
   .modal-form {
     padding: 20px;
 
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       font-weight: bold;
     }
 
-    input {
+    input,
+    .ant-picker {
       width: 100%;
-      padding: 8px;
-      margin-bottom: 16px;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: $border-radius;
+      border: 1px solid #ccc;
       box-sizing: border-box;
     }
 
-    .ant-space {
-      margin-bottom: 16px;
-
-      .ant-picker {
-        width: 100%;
-      }
-    }
-
     .ant-radio-group {
-      margin-bottom: 16px;
+      margin-bottom: 15px;
     }
 
     .ant-btn {
-      margin-right: 8px;
+      margin-right: 10px;
+    }
+  }
+}
+
+// Media Queries for Responsiveness
+@media (max-width: 768px) {
+  .expense-tracker {
+    .totalsBox {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .displayingExpenses {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   }
 }

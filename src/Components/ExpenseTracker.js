@@ -4,12 +4,9 @@ import { GiHouse, GiForkKnifeSpoon, GiCash } from "react-icons/gi";
 import { FaMotorcycle, FaHospitalUser, FaShoppingCart } from "react-icons/fa";
 import { BsFillStarFill } from "react-icons/bs";
 import { FaArrowCircleDown, FaArrowCircleUp } from "react-icons/fa";
-import newBg from "../Assets/newBg.mp4"; // Adjust the path as needed
-
+// import newBg from "../Assets/newBg.mp4"; // For Background video
 import moment from 'moment';
-
 import './expenseTracker.scss';
-
 import ExpenseBudgetChart from './ExpenseBudgetChart';
 
 const { Option } = Select;
@@ -61,24 +58,33 @@ const ExpenseTracker = () => {
     return rowname.type === 1 ? 'expenseRow' : 'budgetRow';
   };
   
-  const getCategoryIcon = (category) => {
-    switch (category.toLowerCase()) {
-      case 'salary':
-        return <GiCash />
-      case 'housing':
-        return <GiHouse />;
-      case 'transportation':
-        return <FaMotorcycle />;
-      case 'food':
-        return <GiForkKnifeSpoon />;
-      case 'healthcare':
-        return <FaHospitalUser />;
-      case 'personal':
-        return <FaShoppingCart />;
-      default:
-        return <BsFillStarFill />;
-    }
+  // const getCategoryIcon = (category) => {
+  //   switch (category.toLowerCase()) {
+  //     case 'salary':
+  //       return <GiCash />
+  //     case 'housing':
+  //       return <GiHouse />;
+  //     case 'Transport':
+  //       return <FaMotorcycle />;
+  //     case 'food':
+  //       return <GiForkKnifeSpoon />;
+  //     case 'healthcare':
+  //       return <FaHospitalUser />;
+  //     case 'Shopping':
+  //       return <FaShoppingCart />;
+  //     default:
+  //       return <BsFillStarFill />;
+  //   }
+  // };
+  const categoryIcons = {
+    salary: <GiCash />,
+    housing: <GiHouse />,
+    transport: <FaMotorcycle />,
+    food: <GiForkKnifeSpoon />,
+    healthcare: <FaHospitalUser />,
+    shopping: <FaShoppingCart />,
   };
+  const getCategoryIcon = (category) => categoryIcons[category] || <BsFillStarFill />;
   
   const getCategoryName = (category) => {
     switch (category) {
@@ -86,14 +92,14 @@ const ExpenseTracker = () => {
         return 'Salary';
       case 'housing':
         return 'Housing';
-      case 'transportation':
-        return 'Transportation';
+      case 'transport':
+        return 'Transport';
       case 'food':
         return 'Food';
       case 'healthcare':
         return 'HealthCare';
-      case 'personal':
-        return 'personal';
+      case 'shopping':
+        return 'Shopping';
       default:
         return 'Others';
     }
@@ -128,7 +134,8 @@ const ExpenseTracker = () => {
         }
   
         form.resetFields();
-        setSelectedDate(moment()); // Reset to today
+        setSelectedDate(moment());
+        setIsModalVisible(false);
       }, 1000);
     });
   }; 
@@ -302,10 +309,10 @@ const ExpenseTracker = () => {
               <Select placeholder="Select a category">
                 <Option value="salary">Salary</Option>
                 <Option value="housing">Housing</Option>
-                <Option value="transportation">Transportation</Option>
+                <Option value="transport">Transport</Option>
                 <Option value="food">Food</Option>
                 <Option value="healthcare">Healthcare</Option>
-                <Option value="personal">Personal and Leisure</Option>
+                <Option value="shopping">Shopping</Option>
                 <Option value="others">Others</Option>
               </Select>
             </Form.Item>
