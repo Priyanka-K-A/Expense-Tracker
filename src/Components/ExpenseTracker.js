@@ -277,7 +277,7 @@ const ExpenseTracker = () => {
                     </div>
                     <div className="categoryInfo">
                       <p className='amount'>{item.type === 2 ? '+' : '-'} ₹{item.value}</p>
-                      <p>{formatDate(item.date)}</p>
+                      <p className='date'>{formatDate(item.date)}</p>
                     </div>
                   </div>
                 </Card>

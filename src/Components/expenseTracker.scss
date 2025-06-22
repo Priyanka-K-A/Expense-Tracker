@@ -53,7 +53,7 @@ $border-radius: 12px;
 
       .budgetExpenses {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         background-color: $primary-color;
         color: $secondary-color;
         padding: 10px;
@@ -106,34 +106,37 @@ $border-radius: 12px;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px;
-    padding: 15px;
+    gap: 10px;
+    padding: 10px;
 
     .card-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 10px;
       width: 100%;
       justify-content: center;
 
       .expense-budget-card {
-        width: 320px;
+        width: 300px;
         border: 2px solid;
         border-radius: $border-radius;
-        padding: 10px;
+        padding: 1px;
         display: flex;
         flex-direction: column;
         box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-
+        
         .singleCard {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 10px;
 
           .firstFlex {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex: 1; // Ensures the name takes up available space
+            min-width: 0;
           }
 
           .icon {
@@ -144,45 +147,62 @@ $border-radius: 12px;
             justify-content: center;
             align-items: center;
           }
+          
           .salary {
             color: rgba(2, 168, 106, 255);
             background-color: rgba(207, 251, 234, 255);
           }
-  
+          
           .housing {
-            color: brown;
-            background-color: #ffebcd;
+            color: #bf360c; /* Burnt Orange */
+            background-color: #ffccbc; /* Soft Coral */
           }
-  
+          
           .transport {
-            color: rgba(127, 61, 255, 255);
-            background-color: rgba(239, 228, 255, 255);
+            color: #3949ab; /* Deep Blue */
+            background-color: #e3e5f9; /* Pastel Blue */
           }
-  
+          
           .food {
-            color: rgba(253, 56, 70, 255);
-            background-color: rgba(255, 213, 215, 255);
+            color: #c62828; /* Dark Red */
+            background-color: #fddede; /* Light Red */
           }
-  
+          
           .healthcare {
-            color: rgb(27, 181, 233);
-            background-color: rgb(232, 248, 252);
+            color: #1976d2; /* Strong Blue */
+            background-color: #bbdefb; /* Sky Blue */
           }
-  
+          
           .shopping {
-            color: rgba(253, 173, 18, 255);
-            background-color: rgba(252, 239, 212, 255);
+            color: #ff6f00; /* Dark Yellow-Orange */
+            background-color: #fff3e0; /* Pale Apricot */
           }
-  
+          
           .others {
-            color: coral;
-            background-color: rgb(253, 239, 234);
-          }
-
+            color: #6a1b9a; /* Deep Purple */
+            background-color: #e1bee7; /* Lavender */
+          }         
+         
           .categoryName,
           .categoryInfo {
             font-size: 15px;
             font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 150px;
+            display: inline-block;
+            position: relative;
+
+            &:hover {
+              max-width: unset;
+              white-space: normal;
+              background-color: white; // Background prevents overlap
+              position: absolute; // Moves the expanded text above other elements
+              z-index: 10; // Ensures it's above the date
+              padding: 2px 5px; // Adds space to prevent overlap
+              box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            }
           }
 
           p {
@@ -191,9 +211,15 @@ $border-radius: 12px;
             margin: 0;
           }
         }
-
+        .date {
+          font-size: 14px;
+          color: gray;
+          position: relative; // Ensures it stays in its own space
+          z-index: 1; // Keeps it below the hovering text
+        }
         &.expenseRow {
           border-color: $expense-color;
+          // background-color: rgb(244, 225, 225);
           .amount {
             color: $expense-color;
           }
@@ -201,6 +227,7 @@ $border-radius: 12px;
 
         &.budgetRow {
           border-color: $income-color;
+          // background-color: rgb(237, 252, 237);
           .amount {
             color: $income-color;
           }
