@@ -39,7 +39,9 @@ const ExpenseBudgetChart = ({ items = [] }) => {
 
   return (
     <div className="chartContainer">
-      <h3 style={{ fontWeight: "bold" }}>Expense & Budget by Category</h3>
+      <div>
+       <h2 style={{ fontWeight: "bold" }}>Expense & Income by Category</h2>
+      </div>
       <div className="chartWrapper">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart

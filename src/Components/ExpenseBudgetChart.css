@@ -1,0 +1,54 @@
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.chartContainer h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+.chartContainer .chartWrapper {
+  width: 100%;
+  max-width: 800px;
+  background: #fff;
+  padding: 15px;
+  padding-top: 0px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recharts-tooltip-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.recharts-legend-item {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.recharts-cartesian-grid {
+  stroke: rgba(0, 0, 0, 0.1);
+}
+
+.recharts-x-axis,
+.recharts-y-axis {
+  font-size: 13px;
+  fill: #555;
+}
+
+.recharts-bar-rectangle {
+  stroke-width: 1;
+  stroke: rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+.recharts-bar-rectangle:hover {
+  transform: scale(1.05);
+}/*# sourceMappingURL=ExpenseBudgetChart.css.map */

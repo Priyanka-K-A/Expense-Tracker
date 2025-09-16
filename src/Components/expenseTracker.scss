@@ -1,18 +1,18 @@
-// Variables for better maintainability
 $primary-color: #131313;
 $secondary-color: #ffffff;
-$bg-light: rgb(218, 245, 236);
+$bg-light: rgb(249, 250, 209);
 $expense-color: red;
 $income-color: rgb(30, 194, 8);
-$button-green: rgb(19, 158, 19);
-$button-red: rgb(236, 9, 9);
+$button-green: rgb(60, 179, 113);
+$button-red: rgb(254, 4, 4);
 $border-radius: 12px;
 
 .expense-tracker {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding-bottom: 20px;
+  padding-top: 0px;
   font-family: "Roboto", sans-serif;
 
   .header {
@@ -32,219 +32,254 @@ $border-radius: 12px;
     }
   }
 
-  .totalsBox {
+  .amountBox {
+  display: flex;
+  align-items: center;         
+  justify-content:flex-start;
+  background-color: $bg-light;
+  width: 800px;
+  margin: 20px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+
+  .amountSection {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-    width: 100%;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 75%;
 
-    .totals {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 15px;
-      border-radius: $border-radius;
-      background-color: $bg-light;
-      width: 300px;
+    .remainingAmountValue, .incomeAmountValue, .expenseAmountValue {
       text-align: center;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-
-      .budgetExpenses {
-        display: flex;
-        justify-content: space-around;
-        background-color: $primary-color;
-        color: $secondary-color;
-        padding: 10px;
-        border-radius: $border-radius;
-        width: 100%;
-      }
-
-      .incomeName {
-        color: $income-color;
-      }
-      .expenseName {
-        color: $expense-color;
-      }
+      padding:0 30px;
+      // margin: 30px;
+      font-size: 16px;
+      font-weight: 700;
+      align-items: center;
+      justify-content: center;
+      color: $primary-color;
+      width: 30%;
     }
 
-    .buttonClass {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-
-      .add-button,
-      .delete-button {
-        width: 100px;
-        height: 40px;
-        color: white;
-        border: none;
-        border-radius: $border-radius;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s ease-in-out;
-
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-
-      .add-button {
-        background-color: $button-green;
-      }
-
-      .delete-button {
-        background-color: $button-red;
-      }
+    .remainingAmountValue, .incomeAmountValue{
+      border-right: 3px solid rgba(13, 13, 13,0.7);
     }
   }
 
+  .buttonClass {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;  
+    width: 25%;
+
+    .add-button,
+    .delete-button {
+      width: 100px;
+      height: 40px;
+      color: white;
+      border: none;
+      border-radius: $border-radius;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .add-button {
+      background-color: $button-green;
+    }
+
+    .delete-button {
+      background-color: $button-red;
+    }
+  }
+}
+
+
   .displayingExpenses {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     width: 100%;
     gap: 10px;
     padding: 10px;
+    margin: 50px;
+    justify-content: space-around;
 
-    .card-container {
+    .columns-container {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      width: 100%;
+      // gap: 20px;
+      // width: 75%;
       justify-content: center;
 
-      .expense-budget-card {
-        width: 300px;
-        border: 2px solid;
-        border-radius: $border-radius;
-        padding: 1px;
+      .column {
+        flex: 1;
+        max-width: 400px; 
         display: flex;
         flex-direction: column;
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        
-        .singleCard {
-          display: flex;
-          justify-content: space-between;
+        padding: 10px;
+
+        h2 {
+          text-align: center;
+          margin-bottom: 10px;
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .scroll-container {
+          max-height: 450px; 
+          overflow-y: auto;
+          padding-right: 5px;
           align-items: center;
-          gap: 10px;
 
-          .firstFlex {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1; // Ensures the name takes up available space
-            min-width: 0;
+          .ant-card-body{
+            padding: 10px;
           }
 
-          .icon {
-            font-size: 30px;
-            padding: 8px;
+          .expense-budget-card {
+            margin: 10px;
+            height: 70px;
+            width: 350px;
+            border: 2px solid;
             border-radius: $border-radius;
+            padding: 0px;
             display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          
-          .salary {
-            color: rgba(2, 168, 106, 255);
-            background-color: rgba(207, 251, 234, 255);
-          }
-          
-          .housing {
-            color: #bf360c; /* Burnt Orange */
-            background-color: #ffccbc; /* Soft Coral */
-          }
-          
-          .transport {
-            color: #3949ab; /* Deep Blue */
-            background-color: #e3e5f9; /* Pastel Blue */
-          }
-          
-          .food {
-            color: #c62828; /* Dark Red */
-            background-color: #fddede; /* Light Red */
-          }
-          
-          .healthcare {
-            color: #1976d2; /* Strong Blue */
-            background-color: #bbdefb; /* Sky Blue */
-          }
-          
-          .shopping {
-            color: #ff6f00; /* Dark Yellow-Orange */
-            background-color: #fff3e0; /* Pale Apricot */
-          }
-          
-          .others {
-            color: #6a1b9a; /* Deep Purple */
-            background-color: #e1bee7; /* Lavender */
-          }         
-         
-          .categoryName,
-          .categoryInfo {
-            font-size: 15px;
-            font-weight: 500;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            max-width: 150px;
-            display: inline-block;
-            position: relative;
+            flex-direction: column;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 
-            &:hover {
-              max-width: unset;
-              white-space: normal;
-              background-color: white; // Background prevents overlap
-              position: absolute; // Moves the expanded text above other elements
-              z-index: 10; // Ensures it's above the date
-              padding: 2px 5px; // Adds space to prevent overlap
-              box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            .singleCard {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 10px;
+
+              .firstFlex {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex: 1; 
+                min-width: 0;
+              }
+
+              .icon {
+                font-size: 30px;
+                padding: 8px;
+                border-radius: $border-radius;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+              .salary {
+                color: rgba(2, 168, 106, 255);
+                background-color: rgba(207, 251, 234, 255);
+              }
+
+              .housing {
+                color: #bf360c;
+                background-color: #ffccbc;
+              }
+
+              .transport {
+                color: #3949ab;
+                background-color: #e3e5f9;
+              }
+
+              .food {
+                color: #c62828;
+                background-color: #fddede;
+              }
+
+              .healthcare {
+                color: #1976d2;
+                background-color: #bbdefb;
+              }
+
+              .shopping {
+                color: #ff6f00;
+                background-color: #fff3e0;
+              }
+
+              .others {
+                color: #6a1b9a;
+                background-color: #e1bee7;
+              }
+
+              .categoryName,
+              .categoryInfo {
+                font-size: 15px;
+                font-weight: 500;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 200px;
+                display: inline-block;
+                position: relative;
+
+                &:hover {
+                  width: 120px;
+                  max-width: unset;
+                  white-space: normal;
+                  background-color: whitesmoke; 
+                  position: absolute; 
+                  z-index: 10; 
+                  padding: 2px 5px; 
+                  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+                }
+              }
+
+              p {
+                font-size: 14px;
+                color: gray;
+                margin: 0;
+              }
+            }
+
+            .date {
+              font-size: 14px;
+              color: gray;
+              position: relative;
+              z-index: 1;
+            }
+
+            &.expenseRow {
+              border-color: $expense-color;
+              
+              .amount {
+                color: $expense-color;
+              }
+            }
+
+            &.budgetRow {
+              border-color: $income-color;
+              
+              .amount {
+                color: $income-color;
+              }
             }
           }
 
-          p {
-            font-size: 14px;
-            color: gray;
-            margin: 0;
+          &::-webkit-scrollbar {
+            width: 6px;
           }
-        }
-        .date {
-          font-size: 14px;
-          color: gray;
-          position: relative; // Ensures it stays in its own space
-          z-index: 1; // Keeps it below the hovering text
-        }
-        &.expenseRow {
-          border-color: $expense-color;
-          // background-color: rgb(244, 225, 225);
-          .amount {
-            color: $expense-color;
-          }
-        }
 
-        &.budgetRow {
-          border-color: $income-color;
-          // background-color: rgb(237, 252, 237);
-          .amount {
-            color: $income-color;
+          &::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
           }
         }
       }
     }
 
-    // Pie Chart Styling
-    .piechart {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-top: 20px;
-    }
+    
   }
 
-  // Modal Form Styling
   .modal-form {
     padding: 20px;
 
@@ -274,7 +309,6 @@ $border-radius: 12px;
   }
 }
 
-// Media Queries for Responsiveness
 @media (max-width: 768px) {
   .expense-tracker {
     .totalsBox {

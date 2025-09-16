@@ -1,181 +1,277 @@
+.expense-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+}
 .expense-tracker .header {
   display: flex;
   align-items: center;
-  background-color: black;
+  justify-content: center;
+  background-color: #131313;
+  padding: 15px;
+  width: 100%;
 }
-.expense-tracker .title {
-  position: relative;
-  top: 0;
-}
-.expense-tracker h1 {
-  font-size: 25px;
-  color: white;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
+.expense-tracker .header h1 {
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 600;
   text-align: center;
-}
-.expense-tracker .totalsBox {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-}
-.expense-tracker .totalsBox .totals {
-  margin-bottom: 10px;
-  color: black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20px;
-  background-color: rgb(218, 245, 236);
-  width: 400px;
-  margin-left: 10px;
-  margin: 10px;
-  text-align: center;
-}
-.expense-tracker .totalsBox .totals div {
-  padding: 5px;
-  border-radius: 20px;
-}
-.expense-tracker .totalsBox .totals .budgetExpenses {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  background-color: rgb(3, 3, 70);
-  color: white;
-  width: 390px;
-}
-.expense-tracker .totalsBox .totals .incomeName {
-  color: greenyellow;
-}
-.expense-tracker .totalsBox .totals .expenseName {
-  color: red;
-}
-.expense-tracker .totalsBox .totals .displayBox {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.expense-tracker .totalsBox .add-button {
-  width: 80px;
-  height: 40px;
-}
-.expense-tracker .card-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 40%;
-  margin-left: 10px;
-}
-.expense-tracker .card-container .ant-card-body {
-  padding: 14px;
-}
-.expense-tracker .card-container .expense-budget-card {
-  border: 2px solid;
-  padding: 0;
-  border-radius: 25px;
-}
-.expense-tracker .card-container .expense-budget-card .singleCard {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 0;
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .firstFlex {
+.expense-tracker .amountBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: rgb(249, 250, 209);
+  width: 800px;
+  margin: 20px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.expense-tracker .amountBox .amountSection {
   display: flex;
   flex-direction: row;
-  width: 300px;
+  flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 75%;
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .icon {
-  font-size: 34px;
-  border-radius: 10px;
+.expense-tracker .amountBox .amountSection .remainingAmountValue, .expense-tracker .amountBox .amountSection .incomeAmountValue, .expense-tracker .amountBox .amountSection .expenseAmountValue {
+  text-align: center;
+  padding: 0 30px;
+  font-size: 16px;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+  color: #131313;
+  width: 30%;
+}
+.expense-tracker .amountBox .amountSection .remainingAmountValue, .expense-tracker .amountBox .amountSection .incomeAmountValue {
+  border-right: 3px solid rgba(13, 13, 13, 0.7);
+}
+.expense-tracker .amountBox .buttonClass {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  width: 25%;
+}
+.expense-tracker .amountBox .buttonClass .add-button,
+.expense-tracker .amountBox .buttonClass .delete-button {
+  width: 100px;
+  height: 40px;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.expense-tracker .amountBox .buttonClass .add-button:hover,
+.expense-tracker .amountBox .buttonClass .delete-button:hover {
+  opacity: 0.8;
+}
+.expense-tracker .amountBox .buttonClass .add-button {
+  background-color: rgb(60, 179, 113);
+}
+.expense-tracker .amountBox .buttonClass .delete-button {
+  background-color: rgb(254, 4, 4);
+}
+.expense-tracker .displayingExpenses {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
   padding: 10px;
+  margin: 50px;
+  justify-content: space-around;
+}
+.expense-tracker .displayingExpenses .columns-container {
+  display: flex;
+  justify-content: center;
+}
+.expense-tracker .displayingExpenses .columns-container .column {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.expense-tracker .displayingExpenses .columns-container .column h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container {
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 5px;
+  align-items: center;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card {
+  margin: 12px;
+  height: 100px;
+  width: 350px;
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .firstFlex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .icon {
+  font-size: 30px;
+  padding: 8px;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .salary {
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .salary {
   color: rgb(2, 168, 106);
   background-color: rgb(207, 251, 234);
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .housing {
-  color: brown;
-  background-color: #ffebcd;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .housing {
+  color: #bf360c;
+  /* Burnt Orange */
+  background-color: #ffccbc;
+  /* Soft Coral */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .transport {
-  color: rgb(127, 61, 255);
-  background-color: rgb(239, 228, 255);
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .transport {
+  color: #3949ab;
+  /* Deep Blue */
+  background-color: #e3e5f9;
+  /* Pastel Blue */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .food {
-  color: rgb(253, 56, 70);
-  background-color: rgb(255, 213, 215);
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .food {
+  color: #c62828;
+  /* Dark Red */
+  background-color: #fddede;
+  /* Light Red */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .healthcare {
-  color: rgb(27, 181, 233);
-  background-color: rgb(232, 248, 252);
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .healthcare {
+  color: #1976d2;
+  /* Strong Blue */
+  background-color: #bbdefb;
+  /* Sky Blue */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .personal {
-  color: rgb(253, 173, 18);
-  background-color: rgb(252, 239, 212);
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .shopping {
+  color: #ff6f00;
+  /* Dark Yellow-Orange */
+  background-color: #fff3e0;
+  /* Pale Apricot */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .others {
-  color: coral;
-  background-color: rgb(253, 239, 234);
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .others {
+  color: #6a1b9a;
+  /* Deep Purple */
+  background-color: #e1bee7;
+  /* Lavender */
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .categoryName {
-  margin-left: 10px;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .categoryName,
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .categoryInfo {
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  display: inline-block;
+  position: relative;
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .categoryName,
-.expense-tracker .card-container .expense-budget-card .singleCard .categoryInfo {
-  font-size: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .categoryName:hover,
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard .categoryInfo:hover {
+  max-width: unset;
+  white-space: normal;
+  background-color: white;
+  position: absolute;
+  z-index: 10;
+  padding: 2px 5px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 }
-.expense-tracker .card-container .expense-budget-card .singleCard .categoryInfo {
-  display: flex;
-  align-items: flex-end;
-}
-.expense-tracker .card-container .expense-budget-card .singleCard p {
-  padding-right: 10px;
-  font-size: 18px;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .singleCard p {
+  font-size: 14px;
+  color: gray;
   margin: 0;
-  color: rgb(107, 106, 106);
 }
-.expense-tracker .card-container .expense-budget-card.expenseRow {
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card .date {
+  font-size: 14px;
+  color: gray;
+  position: relative;
+  z-index: 1;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card.expenseRow {
   border-color: red;
 }
-.expense-tracker .card-container .expense-budget-card.expenseRow .amount {
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card.expenseRow .amount {
   color: red;
 }
-.expense-tracker .card-container .expense-budget-card.budgetRow {
-  border-color: green;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card.budgetRow {
+  border-color: rgb(30, 194, 8);
 }
-.expense-tracker .card-container .expense-budget-card.budgetRow .amount {
-  color: green;
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container .expense-budget-card.budgetRow .amount {
+  color: rgb(30, 194, 8);
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+.expense-tracker .displayingExpenses .columns-container .column .scroll-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+.expense-tracker .displayingExpenses .piechart {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
 }
 .expense-tracker .modal-form {
   padding: 20px;
 }
 .expense-tracker .modal-form label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   font-weight: bold;
 }
-.expense-tracker .modal-form input {
+.expense-tracker .modal-form input,
+.expense-tracker .modal-form .ant-picker {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
-.expense-tracker .modal-form .ant-space {
-  margin-bottom: 16px;
-}
-.expense-tracker .modal-form .ant-space .ant-picker {
-  width: 100%;
-}
 .expense-tracker .modal-form .ant-radio-group {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 .expense-tracker .modal-form .ant-btn {
-  margin-right: 8px;
-}/*# sourceMappingURL=ExpenseTracker.css.map */
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .expense-tracker .totalsBox {
+    flex-direction: column;
+    align-items: center;
+  }
+  .expense-tracker .displayingExpenses .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}/*# sourceMappingURL=expenseTracker.css.map */
