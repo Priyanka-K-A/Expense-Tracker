@@ -21,6 +21,9 @@
 - HTML
 - CSS
 - REACTJS
+- EXPRESS
+- NODE
+- MONGODB
 
 ### Packages/Library
 
@@ -28,6 +31,8 @@
 - AntD
 - react-icons(for icons)
 - SASS(for Styling)
+- node
+- express
 
 ### Platform
 
