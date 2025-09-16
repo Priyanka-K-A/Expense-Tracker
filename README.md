@@ -1,6 +1,6 @@
 # Cash Care (A Expense Tracker)
 
-## Domain: _Web Development_
+## Domain: _Web Development_ _(MERN STACK)_
 :small_blue_diamond: A user-friendly web application designed to streamline personal finance management. <br />
 :small_blue_diamond:Users can effortlessly log and categorize expenses, gaining valuable insights into their spending patterns. <br />
 :small_blue_diamond:With a clean interface, it allows for efficient tracking, displaying comprehensive summaries and categorizations. <br />
