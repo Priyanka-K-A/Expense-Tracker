@@ -1,4 +1,4 @@
-# Cash Care (A Expense Tracker)
+# Cash Care (An Expense Tracker)
 
 ## Domain: _Web Development_ _(MERN STACK)_
 :small_blue_diamond: A user-friendly web application designed to streamline personal finance management. <br />
